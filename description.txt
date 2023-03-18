@@ -28,29 +28,4 @@ Suggestion: start from the methods equals and toString, otherwise the tests
  would not work.
 
 
-Realiseerida abstraktne andmetüüp "Kvaternioon", millel oleksid tabelis
- https://enos.itcollege.ee/%7Ejapoia/algoritmid/quat/ loetletud operatsioonid.
-Kontrollige, et:
-1. Kui lahenduses on kasutatud mingeid allikaid, siis need on viidatud.
-2. Isendimuutujad on kirjeldatud võtmesõnaga private, muutujate ja meetodite
- nimed algavad väikese algustähega.
-3. Kõikidel erinditel peab olema asjakohane ja informatiivne veateade.
-4. Reaalarvude võrdlemiseks (meetodid isZero ja/või equals) ei kasutata
- võrdusmärke. Selle asemel kontrollitakse, et arvude vahe on absoluutväärtuselt
- väiksem etteantud positiivsest lävendist (näit. 0.000001). Lävend defineerida
- static final konstandina täpselt ühes kohas (klassi alguses näiteks).
-5. Meetodid inverse, divideByRight ja divideByLeft kontrollivad ilmutatud kujul,
- et ei teki nulliga jagamist ning viskavad vajadusel erindi.
-6. Meetod hashCode sõltub kõigist isendimuutujatest. Võrdsete kvaternioonide
- hashCode on sama, erinevatel kvaternioonidel võimaluse korral erinev.
- Kollisioonid ei tohi olla lihtsalt ennustatavad (sümmeetria näiteks on halb idee).
-7. Meetodid toString ja valueOf on omavahel täpselt kooskõlas - valueOf oskab
- õigesti tõlgendada kõiki sõnesid, mida toString väljastab.
- Meetod valueOf peab tegema täieliku veatöötluse.
-8. Meetod valueOf peab oskama lugeda negatiivseid imaginaarosade kordajaid
- ilma plussmärgita, näiteks kujul "-1-2i-3j-4k". Vastavalt peab käituma ka
- meetod toString (kombinatsioon "+-" kvaterniooni trükikujus ei ole lubatud).
- Tublimad võivad proovida eksponentkujul arvudega hakkama saada, näiteks
- "-2.0e-3-4.0e-1i-5.0e-2j-6.0e-3k" on igati legaalne kvaternioon.
-Soovitus: alustage meetoditest equals ja toString, muidu automaattestid ei tööta.
 

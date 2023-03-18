@@ -1,3 +1,5 @@
+import java.security.cert.PolicyQualifierInfo;
+
 /** Quaternions. Basic operations. */
 public class Quaternion {
 
@@ -170,7 +172,14 @@ public class Quaternion {
     * @return quaternion <code>this*inverse(q)</code>
     */
    public Quaternion divideByRight (Quaternion q) {
-      return null; // TODO!!!
+      if (!(q instanceof Quaternion)){
+         throw new IllegalArgumentException("Given object is not Quaternion");
+      }
+      else{
+         Quaternion cur = this;
+         return new Quaternion(q.inverse().x0* cur.x0, q.inverse().x1*cur.x1, q.inverse().x2* cur.x2,
+                 q.inverse().x3*cur.x3);
+      }
    }
 
    /** Left quotient of quaternions.
@@ -178,7 +187,14 @@ public class Quaternion {
     * @return quaternion <code>inverse(q)*this</code>
     */
    public Quaternion divideByLeft (Quaternion q) {
-      return null; // TODO!!!
+      if (!(q instanceof Quaternion)){
+         throw new IllegalArgumentException("Given object is not Quaternion");
+      }
+      else{
+         Quaternion cur = this;
+         return new Quaternion(cur.x0*q.inverse().x0, cur.x1*q.inverse().x1, cur.x2*q.inverse().x2,
+                 cur.x3*q.inverse().x3);
+      }
    }
    
    /** Equality test of quaternions. Difference of equal numbers
@@ -203,8 +219,14 @@ public class Quaternion {
     * @return dot product of this and q
     */
    public Quaternion dotMult (Quaternion q) {
-      Quaternion p = this;
-      return Quaternion((p*q.conjugate()+q*p.conjugate())/2); // TODO!!!
+      if (!(q instanceof Quaternion)){
+         throw new IllegalArgumentException("Given object is not Quaternion");
+      }
+      else{
+         Quaternion cur = this;
+         return new Quaternion(cur.x0*q.conjugate().x0, cur.x1*q.conjugate().x1, cur.x2*q.conjugate().x2,
+                 cur.x3*q.conjugate().x3);
+      }
    }
 
    /** Integer hashCode has to be the same for equal objects.
