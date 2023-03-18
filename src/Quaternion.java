@@ -182,7 +182,14 @@ public class Quaternion {
     */
    @Override
    public boolean equals (Object qo) {
-      return false; // TODO!!!
+      if (!(qo instanceof Quaternion)){
+         throw new IllegalArgumentException("The given object is not Quaternion");
+      }
+      else{
+         Quaternion o = (Quaternion) qo;
+         return x0 == o.x0 && x1 == o.x1 && x2 == o.x2 && x3 == o.x3;
+      }
+
    }
 
    /** Dot product of quaternions. (p*conjugate(q) + q*conjugate(p))/2
