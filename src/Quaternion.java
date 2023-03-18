@@ -118,7 +118,13 @@ public class Quaternion {
     * @return quaternion <code>this*q</code>
     */
    public Quaternion times (Quaternion q) {
-      return null; // TODO!!!
+      Quaternion a = this;
+
+      double y0 = a.x0*q.x0 - a.x1*q.x1 - a.x2*q.x2 - a.x3*q.x3;
+      double y1 = a.x0*q.x1 + a.x1*q.x0 + a.x2*q.x3 - a.x3*q.x2;
+      double y2 = a.x0*q.x2 - a.x1*q.x3 + a.x2*q.x0 + a.x3*q.x1;
+      double y3 = a.x0*q.x3 + a.x1*q.x2 - a.x2*q.x1 + a.x3*q.x0;
+      return new Quaternion(y0, y1, y2, y3); // TODO!!!
    }
 
    /** Multiplication by a coefficient.
@@ -177,7 +183,8 @@ public class Quaternion {
     * @return dot product of this and q
     */
    public Quaternion dotMult (Quaternion q) {
-      return null; // TODO!!!
+      Quaternion p = this;
+      return Quaternion((p*q.conjugate()+q*p.conjugate())/2); // TODO!!!
    }
 
    /** Integer hashCode has to be the same for equal objects.
