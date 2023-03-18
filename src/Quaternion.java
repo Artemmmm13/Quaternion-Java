@@ -25,28 +25,28 @@ public class Quaternion {
     * @return real part
     */
    public double getRpart() {
-      return 0.; // TODO!!!
+      return x0; // TODO!!!
    }
 
    /** Imaginary part i of the quaternion. 
     * @return imaginary part i
     */
    public double getIpart() {
-      return 0.; // TODO!!!
+      return x1; // TODO!!!
    }
 
    /** Imaginary part j of the quaternion. 
     * @return imaginary part j
     */
    public double getJpart() {
-      return 0.; // TODO!!!
+      return x2; // TODO!!!
    }
 
    /** Imaginary part k of the quaternion. 
     * @return imaginary part k
     */
    public double getKpart() {
-      return 0.; // TODO!!!
+      return x3; // TODO!!!
    }
 
    /** Conversion of the quaternion to the string.
@@ -128,7 +128,7 @@ public class Quaternion {
       return new Quaternion(y0, y1, y2, y3); // TODO!!!
    }
 
-   /** Multiplication by a coefficient.
+      /** Multiplication by a coefficient.
     * @param r coefficient
     * @return quaternion <code>this*r</code>
     */
