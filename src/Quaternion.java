@@ -156,7 +156,13 @@ public class Quaternion {
     * @return quaternion <code>this-q</code>
     */
    public Quaternion minus (Quaternion q) {
-      return null; // TODO!!!
+      if (!(q instanceof Quaternion)){
+         throw new IllegalArgumentException("Given object is not a Quaternion");
+      }
+      else{
+         Quaternion cur = this;
+         return new Quaternion(-q.x0+cur.x0, -q.x1+cur.x1, -q.x2+cur.x2, -q.x3+cur.x3);
+      }
    }
 
    /** Right quotient of quaternions. Expressed as multiplication to the inverse.
