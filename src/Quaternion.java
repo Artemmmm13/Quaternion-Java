@@ -91,7 +91,7 @@ public class Quaternion {
     * @return conjugate of <code>this</code>
     */
    public Quaternion conjugate() {
-      return new Quaternion(-x0, -x1, x2, x3); // TODO!!!
+      return new Quaternion(x0, -x1, -x2, -x3); // TODO!!!
    }
 
    /** Opposite of the quaternion. Expressed by the formula 
@@ -99,7 +99,7 @@ public class Quaternion {
     * @return quaternion <code>-this</code>
     */
    public Quaternion opposite() {
-      return null; // TODO!!!
+      return new Quaternion(-x0, -x1, -x2, -x3); // TODO!!!
    }
 
    /** Sum of quaternions. Expressed by the formula 
@@ -193,7 +193,7 @@ public class Quaternion {
     * @return norm of <code>this</code> (norm is a real number)
     */
    public double norm() {
-      return 0.; // TODO!!!
+      return Math.sqrt((x0*x0)+(x1*x1)+(x2*x2)+(x3*x3)); // TODO!!!
    }
 
    /** Main method for testing purposes.
