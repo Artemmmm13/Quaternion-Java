@@ -1,5 +1,3 @@
-import java.util.*;
-
 /** Quaternions. Basic operations. */
 public class Quaternion {
 
@@ -11,8 +9,16 @@ public class Quaternion {
     * @param c imaginary part j
     * @param d imaginary part k
     */
+
+   private double x0, x1, x2, x3;
+
+
    public Quaternion (double a, double b, double c, double d) {
-      // TODO!!! Your constructor here!
+      // TODO!!! Your constructor here
+      this.x0 = a;
+      this.x1 = b;
+      this.x2 = c;
+      this.x3 = d;
    }
 
    /** Real part of the quaternion.
@@ -50,7 +56,8 @@ public class Quaternion {
     */
    @Override
    public String toString() {
-      return ""; // TODO!!!
+      return x0 + "+" + x1 + "i" + "+" + x2 + "j" + "+" + x3 + "k";
+      // TODO!!!
    }
 
    /** Conversion from the string to the quaternion. 
@@ -189,8 +196,8 @@ public class Quaternion {
       return 0.; // TODO!!!
    }
 
-   /** Main method for testing purposes. 
-    * @param arg command line parameters
+   /** Main method for testing purposes.
+    * @paramarg command line parameters
     */
    public static void main (String[] args) {
       // TODO!!! Your example runs here
