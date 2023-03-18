@@ -91,7 +91,7 @@ public class Quaternion {
     * @return conjugate of <code>this</code>
     */
    public Quaternion conjugate() {
-      return null; // TODO!!! 
+      return new Quaternion(-x0, -x1, x2, x3); // TODO!!!
    }
 
    /** Opposite of the quaternion. Expressed by the formula 
