@@ -76,7 +76,7 @@ public class Quaternion {
     */
    @Override
    public Object clone() throws CloneNotSupportedException {
-      return null; // TODO!!!
+      return (Quaternion) super.clone();
    }
 
    /** Test whether the quaternion is zero. 
@@ -143,7 +143,12 @@ public class Quaternion {
     * @return quaternion <code>1/this</code>
     */
    public Quaternion inverse() {
-      return null; // TODO!!!
+      Quaternion a = this;
+      double y0 = a.x0/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
+      double y1 = (-a.x1)/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
+      double y2 = (-a.x2)/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
+      double y3 = (-a.x3)/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
+      return new Quaternion(y0, y1, y2, y3);
    }
 
    /** Difference of quaternions. Expressed as addition to the opposite.
