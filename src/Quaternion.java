@@ -133,10 +133,8 @@ public class Quaternion {
     * @return quaternion <code>this*r</code>
     */
    public Quaternion times (double r) {
-
-      return null; // TODO!!!
-
-
+      Quaternion a = this;
+      return new Quaternion(a.x0*r, a.x1*r, a.x2*r,  a.x3*r); // TODO!!!
    }
 
    /** Inverse of the quaternion. Expressed by the formula
