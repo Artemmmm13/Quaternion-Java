@@ -1,4 +1,5 @@
-import java.security.cert.PolicyQualifierInfo;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Quaternions. Basic operations. */
 public class Quaternion implements Cloneable{
@@ -13,7 +14,7 @@ public class Quaternion implements Cloneable{
     */
 
    private double x0, x1, x2, x3;
-
+   static final double threshold = 0.000001;
 
    public Quaternion (double a, double b, double c, double d) {
       // TODO!!! Your constructor here
@@ -70,8 +71,26 @@ public class Quaternion implements Cloneable{
     * @return a quaternion represented by string s
     */
    public static Quaternion valueOf (String s) {
-      return null; // TODO!!!
+      // Parse the string using a regular expression
+      Pattern pattern = Pattern.compile("([-+]?(?:\\d+\\.\\d+|\\d+))(?:([-+])\\s*([0-9]+(?:\\.\\d+)?)i)?" +
+              "(?:([-+])\\s*([0-9]+(?:\\.\\d+)?)j)?(?:([-+])\\s*([0-9]+(?:\\.\\d+)?)k)?");
+      Matcher matcher = pattern.matcher(s);
+
+      // Check if the string matches the expected format
+      if (!matcher.matches()) {
+         throw new IllegalArgumentException("Invalid quaternion string: " + s);
+      }
+
+      // Extract the coefficients from the groups in the regular expression
+      double y0 = Double.parseDouble(matcher.group(1));
+      double y1 = Double.parseDouble(matcher.group(3) != null ? matcher.group(2) + matcher.group(3) : "0");
+      double y2 = Double.parseDouble(matcher.group(5) != null ? matcher.group(4) + matcher.group(5) : "0");
+      double y3 = Double.parseDouble(matcher.group(7) != null ? matcher.group(6) + matcher.group(7) : "0");
+
+      // Construct a new quaternion from the coefficients
+      return new Quaternion(y0, y1, y2, y3);
    }
+
 
    /** Clone of the quaternion.
     * @return independent clone of <code>this</code>
@@ -96,7 +115,8 @@ public class Quaternion implements Cloneable{
     * @return true, if the real part and all the imaginary parts are (close to) zero
     */
    public boolean isZero() {
-      return false; // TODO!!!
+      return Math.abs(this.x0) < threshold && Math.abs(this.x1) < threshold && Math.abs(this.x2) < threshold &&
+              Math.abs(this.x3) < threshold;
    }
 
    /** Conjugate of the quaternion. Expressed by the formula 
@@ -156,13 +176,23 @@ public class Quaternion implements Cloneable{
     * @return quaternion <code>1/this</code>
     */
    public Quaternion inverse() {
-      Quaternion a = this;
-      double y0 = a.x0/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
-      double y1 = (-a.x1)/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
-      double y2 = (-a.x2)/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
-      double y3 = (-a.x3)/((a.x0*a.x0)+(a.x1*a.x1)+(a.x2*a.x2)+(a.x3*a.x3));
-      return new Quaternion(y0, y1, y2, y3);
+      double normSquared = x0*x0 + x1*x1 + x2*x2 + x3*x3;
+      double invNormSquared = 1.0 / normSquared;
+      return new Quaternion(x0 * invNormSquared,
+              -x1 * invNormSquared,
+              -x2 * invNormSquared,
+              -x3 * invNormSquared).round();
    }
+
+   // The round() method rounds the real and imaginary parts of the quaternion to 15 decimal places:
+   public Quaternion round() {
+      return new Quaternion(Math.round(x0 * 1e15) / 1e15,
+              Math.round(x1 * 1e15) / 1e15,
+              Math.round(x2 * 1e15) / 1e15,
+              Math.round(x3 * 1e15) / 1e15);
+   }
+
+
 
    /** Difference of quaternions. Expressed as addition to the opposite.
     * @param q subtrahend
@@ -207,7 +237,7 @@ public class Quaternion implements Cloneable{
                  cur.x3*q.inverse().x3);
       }
    }
-   
+
    /** Equality test of quaternions. Difference of equal numbers
     *     is (close to) zero.
     * @param qo second quaternion
