@@ -178,6 +178,9 @@ public class Quaternion implements Cloneable{
    public Quaternion inverse() {
       double normSquared = x0*x0 + x1*x1 + x2*x2 + x3*x3;
       double invNormSquared = 1.0 / normSquared;
+      if (normSquared == 0){
+         throw new ArithmeticException("Division by zero is not allowed");
+      }
       return new Quaternion(x0 * invNormSquared,
               -x1 * invNormSquared,
               -x2 * invNormSquared,
