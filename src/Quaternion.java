@@ -1,7 +1,7 @@
 import java.security.cert.PolicyQualifierInfo;
 
 /** Quaternions. Basic operations. */
-public class Quaternion {
+public class Quaternion implements Cloneable{
 
    // TODO!!! Your fields here!
 
@@ -78,8 +78,19 @@ public class Quaternion {
     */
    @Override
    public Object clone() throws CloneNotSupportedException {
-      return (Quaternion) super.clone();
+      try {
+         Quaternion cloned = (Quaternion) super.clone();
+         cloned.x0 = this.x0;
+         cloned.x1 = this.x1;
+         cloned.x2 = this.x2;
+         cloned.x3 = this.x3;
+         return cloned;
+      } catch (CloneNotSupportedException e) {
+         // Should not happen, since we are Cloneable
+         throw new AssertionError();
+      }
    }
+
 
    /** Test whether the quaternion is zero. 
     * @return true, if the real part and all the imaginary parts are (close to) zero
@@ -234,7 +245,18 @@ public class Quaternion {
     */
    @Override
    public int hashCode() {
-      return 0; // TODO!!!
+      final int prime = 31;
+      int result = 1;
+      long temp;
+      temp = Double.doubleToLongBits(x0);
+      result = prime * result + (int) (temp ^ (temp >>> 32));
+      temp = Double.doubleToLongBits(x1);
+      result = prime * result + (int) (temp ^ (temp >>> 32));
+      temp = Double.doubleToLongBits(x2);
+      result = prime * result + (int) (temp ^ (temp >>> 32));
+      temp = Double.doubleToLongBits(x3);
+      result = prime * result + (int) (temp ^ (temp >>> 32));
+      return result;
    }
 
    /** Norm of the quaternion. Expressed by the formula 
