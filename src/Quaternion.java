@@ -253,7 +253,7 @@ public class Quaternion implements Cloneable{
       }
       else{
          Quaternion o = (Quaternion) qo;
-         return x0 == o.x0 && x1 == o.x1 && x2 == o.x2 && x3 == o.x3;
+         return x0 -o.x0 < threshold && x1 -o.x1 < threshold && x2 - o.x2 < threshold && x3 - o.x3 < threshold;
       }
 
    }
