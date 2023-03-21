@@ -63,6 +63,27 @@ public class Quaternion implements Cloneable{
       // TODO!!!
    }
 
+   /** Multiplication of two quaternions.
+    * @param q a quaternion
+    * @return this*q
+    */
+   public Quaternion multiply(Quaternion q) {
+      double a = this.x0;
+      double b = this.x1;
+      double c = this.x2;
+      double d = this.x3;
+      double e = q.x0;
+      double f = q.x1;
+      double g = q.x2;
+      double h = q.x3;
+      double r = a*e - b*f - c*g - d*h;
+      double i = a*f + b*e + c*h - d*g;
+      double j = a*g - b*h + c*e + d*f;
+      double k = a*h + b*g - c*f + d*e;
+      return new Quaternion(r, i, j, k);
+   }
+
+
    /** Conversion from the string to the quaternion. 
     * Reverse to <code>toString</code> method.
     * @throws IllegalArgumentException if string s does not represent 
@@ -72,8 +93,7 @@ public class Quaternion implements Cloneable{
     */
    public static Quaternion valueOf (String s) {
       // Parse the string using a regular expression
-      Pattern pattern = Pattern.compile("([-+]?(?:\\d+\\.\\d+|\\d+))(?:([-+])\\s*([0-9]+(?:\\.\\d+)?)i)?" +
-              "(?:([-+])\\s*([0-9]+(?:\\.\\d+)?)j)?(?:([-+])\\s*([0-9]+(?:\\.\\d+)?)k)?");
+      Pattern pattern = Pattern.compile("([-+]?\\d*\\.?\\d+)([-+])?(\\d*\\.?\\d*)i([-+])?(\\d*\\.?\\d*)j([-+])?(\\d*\\.?\\d*)k");
       Matcher matcher = pattern.matcher(s);
 
       // Check if the string matches the expected format
@@ -83,13 +103,14 @@ public class Quaternion implements Cloneable{
 
       // Extract the coefficients from the groups in the regular expression
       double y0 = Double.parseDouble(matcher.group(1));
-      double y1 = Double.parseDouble(matcher.group(3) != null ? matcher.group(2) + matcher.group(3) : "0");
-      double y2 = Double.parseDouble(matcher.group(5) != null ? matcher.group(4) + matcher.group(5) : "0");
-      double y3 = Double.parseDouble(matcher.group(7) != null ? matcher.group(6) + matcher.group(7) : "0");
+      double y1 = Double.parseDouble((matcher.group(2) != null ? matcher.group(2) : "+") + matcher.group(3));
+      double y2 = Double.parseDouble((matcher.group(4) != null ? matcher.group(4) : "+") + matcher.group(5));
+      double y3 = Double.parseDouble((matcher.group(6) != null ? matcher.group(6) : "+") + matcher.group(7));
 
       // Construct a new quaternion from the coefficients
       return new Quaternion(y0, y1, y2, y3);
    }
+
 
 
    /** Clone of the quaternion.
@@ -216,30 +237,33 @@ public class Quaternion implements Cloneable{
     * @return quaternion <code>this*inverse(q)</code>
     */
    public Quaternion divideByRight (Quaternion q) {
-      if (!(q instanceof Quaternion)){
-         throw new IllegalArgumentException("Given object is not Quaternion");
+      Quaternion qConjugate = q.conjugate();
+      Quaternion numerator = qConjugate.multiply(this);
+      Quaternion denominator = qConjugate.multiply(q);
+
+      if (denominator.isZero()) {
+         throw new ArithmeticException("Division by zero");
       }
-      else{
-         Quaternion cur = this;
-         return new Quaternion(q.inverse().x0* cur.x0, q.inverse().x1*cur.x1, q.inverse().x2* cur.x2,
-                 q.inverse().x3*cur.x3);
-      }
+
+      return numerator.multiply(denominator.inverse());
    }
 
    /** Left quotient of quaternions.
     * @param q (left) divisor
     * @return quaternion <code>inverse(q)*this</code>
     */
-   public Quaternion divideByLeft (Quaternion q) {
-      if (!(q instanceof Quaternion)){
-         throw new IllegalArgumentException("Given object is not Quaternion");
+   public Quaternion divideByLeft(Quaternion q) {
+      Quaternion qConjugate = q.conjugate();
+      Quaternion numerator = qConjugate.multiply(this);
+      Quaternion denominator = qConjugate.multiply(q);
+
+      if (denominator.isZero()) {
+         throw new ArithmeticException("Division by zero");
       }
-      else{
-         Quaternion cur = this;
-         return new Quaternion(cur.x0*q.inverse().x0, cur.x1*q.inverse().x1, cur.x2*q.inverse().x2,
-                 cur.x3*q.inverse().x3);
-      }
+
+      return numerator.multiply(denominator.inverse());
    }
+
 
    /** Equality test of quaternions. Difference of equal numbers
     *     is (close to) zero.
@@ -262,16 +286,17 @@ public class Quaternion implements Cloneable{
     * @param q factor
     * @return dot product of this and q
     */
-   public Quaternion dotMult (Quaternion q) {
-      if (!(q instanceof Quaternion)){
+   public Quaternion dotMult(Quaternion q) {
+      if (!(q instanceof Quaternion)) {
          throw new IllegalArgumentException("Given object is not Quaternion");
-      }
-      else{
+      } else {
          Quaternion cur = this;
-         return new Quaternion(cur.x0*q.conjugate().x0, cur.x1*q.conjugate().x1, cur.x2*q.conjugate().x2,
-                 cur.x3*q.conjugate().x3);
+         Quaternion conj = q.conjugate();
+         double dot = cur.x0 * conj.x0 + cur.x1 * conj.x1 + cur.x2 * conj.x2 + cur.x3 * conj.x3;
+         return new Quaternion(dot, 0, 0, 0);
       }
    }
+
 
    /** Integer hashCode has to be the same for equal objects.
     * @return hashcode
