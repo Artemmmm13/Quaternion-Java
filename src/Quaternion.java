@@ -91,25 +91,33 @@ public class Quaternion implements Cloneable{
     * @param s string of form produced by the <code>toString</code> method
     * @return a quaternion represented by string s
     */
-   public static Quaternion valueOf (String s) {
-      // Parse the string using a regular expression
-      Pattern pattern = Pattern.compile("([-+]?\\d*\\.?\\d+)([-+])?(\\d*\\.?\\d*)i([-+])?(\\d*\\.?\\d*)j([-+])?(\\d*\\.?\\d*)k");
-      Matcher matcher = pattern.matcher(s);
-
-      // Check if the string matches the expected format
-      if (!matcher.matches()) {
-         throw new IllegalArgumentException("Invalid quaternion string: " + s);
+   public static Quaternion valueOf(String s) throws NumberFormatException {
+      String[] parts = s.replaceAll("[<>]", "").split("\\s*[+,]\\s*");
+      if (parts.length < 1 || parts.length > 4) {
+         throw new NumberFormatException("Invalid quaternion string format: " + s);
       }
-
-      // Extract the coefficients from the groups in the regular expression
-      double y0 = Double.parseDouble(matcher.group(1));
-      double y1 = Double.parseDouble((matcher.group(2) != null ? matcher.group(2) : "+") + matcher.group(3));
-      double y2 = Double.parseDouble((matcher.group(4) != null ? matcher.group(4) : "+") + matcher.group(5));
-      double y3 = Double.parseDouble((matcher.group(6) != null ? matcher.group(6) : "+") + matcher.group(7));
-
-      // Construct a new quaternion from the coefficients
-      return new Quaternion(y0, y1, y2, y3);
+      double[] values = new double[4];
+      values[0] = Double.parseDouble(parts[0]);
+      for (int i = 1; i < parts.length; i++) {
+         char c = parts[i].charAt(parts[i].length() - 1);
+         double value = Double.parseDouble(parts[i].substring(0, parts[i].length() - 1));
+         switch (c) {
+            case 'i':
+               values[1] = value;
+               break;
+            case 'j':
+               values[2] = value;
+               break;
+            case 'k':
+               values[3] = value;
+               break;
+            default:
+               throw new NumberFormatException("Invalid quaternion string format: " + s);
+         }
+      }
+      return new Quaternion(values[0], values[1], values[2], values[3]);
    }
+
 
 
 
