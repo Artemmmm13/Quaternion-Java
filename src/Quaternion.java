@@ -118,9 +118,6 @@ public class Quaternion implements Cloneable{
       return new Quaternion(values[0], values[1], values[2], values[3]);
    }
 
-
-
-
    /** Clone of the quaternion.
     * @return independent clone of <code>this</code>
     */
@@ -245,15 +242,7 @@ public class Quaternion implements Cloneable{
     * @return quaternion <code>this*inverse(q)</code>
     */
    public Quaternion divideByRight (Quaternion q) {
-      Quaternion qConjugate = q.conjugate();
-      Quaternion numerator = qConjugate.multiply(this);
-      Quaternion denominator = qConjugate.multiply(q);
-
-      if (denominator.isZero()) {
-         throw new ArithmeticException("Division by zero");
-      }
-
-      return numerator.multiply(denominator.inverse());
+      return this.times(q.inverse());
    }
 
    /** Left quotient of quaternions.
