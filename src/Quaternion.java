@@ -14,7 +14,7 @@ public class Quaternion implements Cloneable{
     */
 
    private double x0, x1, x2, x3;
-   static final double threshold = 0.000001;
+   static final double THRESHOLD = 0.000001;
 
    public Quaternion (double a, double b, double c, double d) {
       // TODO!!! Your constructor here
@@ -141,8 +141,8 @@ public class Quaternion implements Cloneable{
     * @return true, if the real part and all the imaginary parts are (close to) zero
     */
    public boolean isZero() {
-      return Math.abs(this.x0) < threshold && Math.abs(this.x1) < threshold && Math.abs(this.x2) < threshold &&
-              Math.abs(this.x3) < threshold;
+      return Math.abs(this.x0) < THRESHOLD && Math.abs(this.x1) < THRESHOLD && Math.abs(this.x2) < THRESHOLD &&
+              Math.abs(this.x3) < THRESHOLD;
    }
 
    /** Conjugate of the quaternion. Expressed by the formula 
@@ -274,7 +274,7 @@ public class Quaternion implements Cloneable{
       }
       else{
          Quaternion o = (Quaternion) qo;
-         return x0 -o.x0 < threshold && x1 -o.x1 < threshold && x2 - o.x2 < threshold && x3 - o.x3 < threshold;
+         return x0 -o.x0 < THRESHOLD && x1 -o.x1 < THRESHOLD && x2 - o.x2 < THRESHOLD && x3 - o.x3 < THRESHOLD;
       }
 
    }
