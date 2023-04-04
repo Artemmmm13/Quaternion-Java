@@ -325,6 +325,20 @@ public class Quaternion implements Cloneable{
    /** Main method for testing purposes.
     * @paramarg command line parameters
     */
+      public Quaternion pow(int q){
+      switch (q){
+         case 0:
+            return new Quaternion(1, 0 , 0, 0);
+         case 1:
+            return new Quaternion(this.x0, this.x1, this.x2, this.x3);
+         case -1:
+            return this.inverse();
+         default:
+            return (q > 1) ? this.times(this.pow(q-1)) : this.pow(-q).inverse();
+
+      }
+   }
+
    public static void main (String[] args) {
       // TODO!!! Your example runs here
    }
