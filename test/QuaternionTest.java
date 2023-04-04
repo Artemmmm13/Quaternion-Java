@@ -604,6 +604,41 @@ public class QuaternionTest {
          + q1 + " and " + q2 + " both give " + h1,
          h1 == h2);
    }
+   
+    @Test(timeout = 1000)
+   public void testPowerOfZero(){
+      Quaternion q1 = new Quaternion(1., 2., 3., 4.);
+      Quaternion right_q = new Quaternion(1, 0, 0, 0);
+      assertEquals("Quaternion to power 0 should be 1", right_q, q1.pow(0));
+
+   }
+   @Test(timeout = 1000)
+   public void testPowerOfOne(){
+      Quaternion q1 = new Quaternion(1., 2., 3., 4.);
+      assertEquals("Quaternion to power 1 should be the quaternion itself (but not identical)", q1, q1.pow(1));
+
+   }
+   @Test(timeout = 1000)
+   public void testPowerOfMinusOne(){
+      Quaternion q1 = new Quaternion(1., 2., 3., 4.);
+      assertEquals("Quaternion to power -1 should be the inverse of the quaternion", q1.inverse(), q1.pow(-1));
+
+   }
+   @Test(timeout = 1000)
+   public void testPositivePower(){
+      Quaternion right_q = new Quaternion(668., -224., -336., -448.);
+      Quaternion q1 = new Quaternion(1., 2., 3., 4.);
+      assertEquals("Quaternion (1r, 2i, 3j, 4k) to the power 4 should be (668r, -224i, -336j, -448k)", right_q, q1.pow(4));
+   }
+   @Test(timeout = 1000)
+   public void testNegativePower(){
+      Quaternion right_q = new Quaternion(0.000825 , 0.000277, 0.000415, 0.000553);
+      Quaternion q1 = new Quaternion(1., 2., 3., 4.);
+      assertEquals("Quaternion (1r, 2i, 3j, 4k) to the power 4 should be (0.000825r, 0.000277i, 0.000415j, 0.000553k)", right_q, q1.pow(-4));
+
+   }
+
+
 
 }
 
